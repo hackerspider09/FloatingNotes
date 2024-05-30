@@ -1,8 +1,8 @@
-FloatingNotes
+# FloatingNotes
 
 Java-based floating sticky note application for desktop. It allows users to create, edit, and delete notes, customize note colors, and stick notes to the desktop for quick access. This application offers a simple and intuitive interface built with Java Swing.
 
-Features:
+### Features:
 - Create, edit, and delete notes.
 - Customize note colors to notes.
 - Stick notes to the desktop for easy access.
@@ -12,7 +12,8 @@ Features:
 
 ### Run JAR File:
 - Download the `FloatingNote.jar` file from the repository.
-- Double-click the `floatingnote.jar` file to run the application instantly. No additional setup required!
+- Use `java -jar FloatingNote.jar` to run the application instantly. No additional setup required!
+
 
 ## To See Code and Build from Source:
 
