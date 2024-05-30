@@ -11,8 +11,9 @@ import java.io.IOException;
 public class StickyNotesManager {
 	
 	// Components
-    private JWindow settingPanelWindow;
-    private JPanel additionalBtnSettingPanelpanel;
+    private JWindow settingPanelWindow;  // setting btn
+    private JPanel additionalBtnSettingPanelpanel;	// extra btn (add, cross..)
+    
     private JButton settingButton;
     private JButton stickButton;
     private JButton addButton;
@@ -187,6 +188,8 @@ public class StickyNotesManager {
             }
         });
     }
+    
+//    settingPanelWindow[ container { mainPanel [settingButton] , additionalBtnSettingPanelpanel [stickButton, .... ,infoButton ] } ]
 
     protected void notesSettingPanel(){
         settingPanelWindow = new JWindow();
@@ -233,10 +236,6 @@ public class StickyNotesManager {
         infoButton.setPreferredSize(new Dimension(ICON_WIDTH, ICON_HEIGHT));
         infoButton.addActionListener(e -> new InfoWindow());
         
-        
-        
-        
-        
 
         // Create a additionalBtnSettingPanelpanel for the main button
         JPanel mainPanel = new JPanel();
@@ -244,19 +243,17 @@ public class StickyNotesManager {
         mainPanel.add(settingButton);
         mainPanel.setBackground(yellowCol);
 
-        // Create a additionalBtnSettingPanelpanel for the additional buttons
+        // Create a additionalBtnSettingPanelpanel for the additional buttons (stick, add, cross, eye..)
         additionalBtnSettingPanelpanel = new JPanel();
         additionalBtnSettingPanelpanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        additionalBtnSettingPanelpanel.setVisible(false); // Hide the additionalBtnSettingPanelpanel initially
+        additionalBtnSettingPanelpanel.setBackground(greenCol);
+        // Add btns to panel
         additionalBtnSettingPanelpanel.add(stickButton);
         additionalBtnSettingPanelpanel.add(addButton);
         additionalBtnSettingPanelpanel.add(visibleButton);
         additionalBtnSettingPanelpanel.add(crossButton);
         additionalBtnSettingPanelpanel.add(infoButton);
-        additionalBtnSettingPanelpanel.setVisible(false); // Hide the additionalBtnSettingPanelpanel initially
-        additionalBtnSettingPanelpanel.setBackground(greenCol);
-        
-        
-        
         
 
         // Add an ActionListener to the main button to toggle the visibility of the additional buttons
@@ -283,13 +280,15 @@ public class StickyNotesManager {
             }
         });
 
-        // Create a main container additionalBtnSettingPanelpanel and add both sub-panels to it
+        // Container panel contains mainPanel and additionalBtnSettingPanelpanel
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
         
+        // Insert component
         container.add(mainPanel);
         container.add(additionalBtnSettingPanelpanel);
 
+        // Insert container to main window
         settingPanelWindow.add(container);
 
         // Position the window at the bottom right of the screen
@@ -298,13 +297,10 @@ public class StickyNotesManager {
 
         settingPanelWindow.setVisible(true);
 
-        // drag listener for notes setting additionalBtnSettingPanelpanel 
+        // Listener to drag setting panel
         settingButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
-                // Debug statement to check if mouse press event is detected
-//                System.out.println("Mouse Pressed");
-
                 // Get the position of the mouse relative to the window
                 xPosSettingBtn = me.getXOnScreen() - settingPanelWindow.getX();
                 yPosSettingBtn = me.getYOnScreen() - settingPanelWindow.getY();
@@ -314,7 +310,6 @@ public class StickyNotesManager {
         settingButton.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent me) {
-                // Calculate the new position of the window
                 int newX = me.getXOnScreen() - xPosSettingBtn;
                 int newY = me.getYOnScreen() - yPosSettingBtn;
                 settingPanelWindow.setLocation(newX, newY);

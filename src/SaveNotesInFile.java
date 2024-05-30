@@ -16,7 +16,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-
+// Use to store notes in json file
 public class SaveNotesInFile {
 
     private  JSONObject noteData;
@@ -24,7 +24,7 @@ public class SaveNotesInFile {
     private static final int MAX_NOTES = 42; // Maximum allowed notes
 
     public SaveNotesInFile() {
- 
+    	// Loads key in json file if not present
         noteData = new JSONObject();
         noteData.put("userNotes", new JSONArray());
         noteData.put("noteWindows", new JSONArray());
@@ -41,6 +41,7 @@ public class SaveNotesInFile {
             noteData = (JSONObject) obj;
         } catch (IOException | ParseException e) {
 //            System.out.println("No existing notes found or an error occurred while loading notes."+e);
+        	// If file not present create file
             saveJsonToFile();
         }
     }
@@ -59,7 +60,6 @@ public class SaveNotesInFile {
             System.out.println("Note added successfully.");
         } else {
 //            System.out.println("Maximum number of notes reached. Cannot add more notes.");
-//            JOptionPane dialogBox = new JOptionPane("Maximum number of notes reached. Cannot add more notes.", )
             JOptionPane.showMessageDialog(null,"Maximum number of notes reached. Cannot add more notes.","Sticky Note",JOptionPane.PLAIN_MESSAGE);
         }
     }
@@ -80,13 +80,12 @@ public class SaveNotesInFile {
         System.out.println("Note with ID " + id + " not found.");
     }
     
+    // Update existing note by Id
     public void updateNote(String id, String newNote,Color nBarColor, Color nContentColor) {
     	loadFromFile();
         JSONArray notes = (JSONArray) noteData.get("userNotes");
         for (int i = 0; i < notes.size(); i++) {
             JSONObject note = (JSONObject) notes.get(i);
-//            System.out.println(newNote);
-//            System.out.println("id " + id + " note " + note.get("id"));
             if (note.get("id").equals(id)) {
                 note.put("note", newNote); // Replace the note content
                 note.put("nBarColor", nBarColor.getRGB()); // Store color as RGB integer
@@ -118,7 +117,7 @@ public class SaveNotesInFile {
             file.flush();
             System.out.println("JSON data saved to " + FILE_PATH);
         } catch (IOException e) {
-            System.out.println("An error occurred while saving JSON data to file.");
+            System.out.println("Error (saving data in json file) : ");
             e.printStackTrace();
         }
     }

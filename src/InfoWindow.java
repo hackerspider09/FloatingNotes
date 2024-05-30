@@ -10,13 +10,14 @@ public class InfoWindow extends JFrame {
     public InfoWindow() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("My Info - Application Information");
+        setTitle("Sticky Floating Notes");
         setSize(500, 550);
         setResizable(false);
         setLocationRelativeTo(null);
 
+        // Panel
         JPanel mainPanel = new JPanel(new BorderLayout());
-//        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
 
      // Info Panel
         JPanel infoPanel = createInfoPanel();
@@ -49,6 +50,7 @@ public class InfoWindow extends JFrame {
         setVisible(true);
     }
     
+    // Method to create info section
     private JPanel createInfoPanel() {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -70,41 +72,37 @@ public class InfoWindow extends JFrame {
         infoText.setAlignmentX(Component.CENTER_ALIGNMENT);
         infoText.setFont(new Font("Arial", Font.BOLD,12));
 
-        JLabel githubLabel = new JLabel("<html><a href=''>Contribute to this project on GitHub</a></html>");
+        JLabel githubLabel = new JLabel("<html><a href='https://github.com/hackerspider09/FloatingNotes'>Contribute to this project on GitHub</a></html>");
         githubLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         githubLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         githubLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    Desktop.getDesktop().browse(new URI("https://github.com/your-repository-link"));
+                    Desktop.getDesktop().browse(new URI("https://github.com/hackerspider09/FloatingNotes"));
                 } catch (IOException | URISyntaxException ex) {
                     ex.printStackTrace();
                 }
             }
         });
 
+        // Add component in panel
         infoPanel.add(titleLabel);
-//        infoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         infoPanel.add(infoText);
-//        infoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         infoPanel.add(githubLabel);
 
         return infoPanel;
     }
 
 
-    
+    // Method to create icon and description
     private JPanel createIconDescriptionPanel(String iconPath, String description) {
     	JPanel panel = new JPanel();
-//    	panel.setBorder(BorderFactory.createLineBorder(Color.RED)); // Add border
-        
     	panel.setLayout(new  BoxLayout(panel,BoxLayout.X_AXIS));
     	panel.add(Box.createRigidArea(new Dimension(10, 10)));  // Gives inital space then we can add new component after this 
         
         // Icon label
     	java.net.URL imgURL = getClass().getClassLoader().getResource(iconPath);
-        // Read the image
 		try {
 			Image photo;
 			photo = ImageIO.read(imgURL);
@@ -118,7 +116,6 @@ public class InfoWindow extends JFrame {
         
         // Description 
 		JLabel textLabel = new JLabel(description);
-		
 		
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));  // This position matters to give space after 1st component
 		panel.add(textLabel);

@@ -17,19 +17,23 @@ import java.awt.event.*;
 
 
 class StickyNotesWindow {
-
+	// Component for individual note	
     private  final int GAP = 10; // Gap between notes
     private  final int NOTE_WIDTH = 400;
     private  final int NOTE_HEIGHT = 200;
     private  final int ICON_WIDTH = 30;
     private  final int ICON_HEIGHT = 30;
-    private  int xPos, yPos;
+    
     private  List<JWindow> noteWindows = new ArrayList<>();
     private  List<Note> noteWindowContent = new ArrayList<>();
+    
+    // map to store notes and its windows
     private Map<String, Note> noteWindowContentMap = new HashMap<>();
     private Map<String, JWindow> noteWindowMap = new HashMap<>();
     private SaveNotesInFile saveNotesInFileObj;
     
+    // co-ordinates for notes to position
+    private  int xPos, yPos;
     private int noteX = Toolkit.getDefaultToolkit().getScreenSize().width - ICON_WIDTH;
     private int noteY = GAP;
 
@@ -38,6 +42,7 @@ class StickyNotesWindow {
     	saveNotesInFileObj = new SaveNotesInFile();
 	}
 
+    // Use to test component
 //    public static void main(String[] args) {
 //    
 //    	
@@ -51,14 +56,13 @@ class StickyNotesWindow {
 //        });
 //    }
 
-    // Start function to display notes on screen
+    // Start method to display notes on screen initially
     public void start() throws IOException, ParseException {
     	noteX = Toolkit.getDefaultToolkit().getScreenSize().width - ICON_WIDTH;
         noteY = GAP;
         
-//    	System.out.println("start : ");
-    	makeInvisible();
-        List<Note> notes = readNotesFromJSON("noteData.json");
+    	makeInvisible();	// Clear previous notes 
+        List<Note> notes = readNotesFromJSON("noteData.json");	// Get all notes
 
         int x = noteX;
         int y = noteY;
@@ -96,15 +100,13 @@ class StickyNotesWindow {
         noteY = y;
     }
     
-    
+    // Method to add new note individual note
     public void addNewNote(String noteContent,String noteId,Color navbarColor,Color contentColor) throws IOException, ParseException {
 //    	System.out.println("add note : ");
-//    	makeInvisible();
 
         int x = noteX;
         int y = noteY;
 
-//        for (Note note : notes) {
         	Note note = new Note();
             note.x = x;
             note.y = y;
@@ -117,12 +119,6 @@ class StickyNotesWindow {
             createStickyNoteIcon(note);
             noteWindowContent.add(note);
             
-
-//            y += ICON_HEIGHT + GAP;
-//            if (y + ICON_HEIGHT + GAP > Toolkit.getDefaultToolkit().getScreenSize().height) {
-//                y = GAP;
-//                x -= ICON_WIDTH + GAP;
-//            }
             
             if (y + ICON_HEIGHT + GAP + 100 > Toolkit.getDefaultToolkit().getScreenSize().height && x==0) {
             	JOptionPane.showMessageDialog(null, "Maximum number of notes reached. Unable to display more notes on screen.", "Sticky Note", JOptionPane.PLAIN_MESSAGE);
@@ -137,15 +133,15 @@ class StickyNotesWindow {
             }
             
             noteX = x;
-            noteY = y;
-            
+            noteY = y;     
     }
     
     
+    // Method to stick individual note
     public void stickIndividual(Note note,JWindow window) {
  
 
-            JPanel contentPanel = (JPanel) window.getContentPane().getComponent(1); // Assuming contentPanel is at index 1
+            JPanel contentPanel = (JPanel) window.getContentPane().getComponent(1); // Assuming contentPanel is at index 1 (get by try error :) )
             contentPanel.setVisible(false);
 
             JPanel btnPanel = (JPanel) window.getContentPane().getComponent(0);
@@ -156,14 +152,10 @@ class StickyNotesWindow {
             window.setLocation(note.initX, note.initY);
             window.validate();
             window.repaint();
-   
     }
     
    
-    
-
-
-    // Stick function to reposition notes to the right side of the screen
+    // Method to stick all notes to there initial position
     public  void stick() {
 
     	for (Map.Entry<String, JWindow> noteWindowEntry : noteWindowMap.entrySet()) {
@@ -174,58 +166,39 @@ class StickyNotesWindow {
             
 //            System.out.println("st "+key+ " "+window+ " "+note);
             
-          JPanel contentPanel = (JPanel) window.getContentPane().getComponent(1); // Assuming contentPanel is at index 1
-      contentPanel.setVisible(false);
-      try {
-		
-      JPanel btnPanel = (JPanel) window.getContentPane().getComponent(0);
-      JPanel btnContentPanel = (JPanel) btnPanel.getComponent(1); // Assuming btnContentPanel is at index 1
-    	  
-//      btnContentPanel.setVisible(false);
-      btnPanel.remove(btnContentPanel);
-	} catch (Exception e) {
-		// TODO: handle exception
-	}
+          JPanel contentPanel = (JPanel) window.getContentPane().getComponent(1); 
+          contentPanel.setVisible(false);
+          
+          // Use to avoid error when some of notes are stick and some of them are open
+	      try {
+			
+		      JPanel btnPanel = (JPanel) window.getContentPane().getComponent(0);
+		      JPanel btnContentPanel = (JPanel) btnPanel.getComponent(1); 
+		    	  
+		//      btnContentPanel.setVisible(false);
+		      btnPanel.remove(btnContentPanel);
+			} catch (Exception e) {
+		//		e.printStackTrace();
+			}
 
-      window.setSize(ICON_WIDTH, ICON_HEIGHT);
-      window.setLocation(note.initX, note.initY);
-      window.validate();
-      window.repaint();
+	      window.setSize(ICON_WIDTH, ICON_HEIGHT);
+	      window.setLocation(note.initX, note.initY);
+	      window.validate();
+	      window.repaint();
             
         }
-//        System.out.println("hello");
-//        for(int i=0;i<noteWindows.size();i++){
-//
-//            JWindow obj = noteWindows.get(i);
-//            Note notObj = noteWindowContent.get(i);
-//
-//             System.out.println("ojb"+ notObj.x+" "+notObj.y);
-//            System.out.println("ojb "+ obj);
-//
-//            // Disable content panel
-//            JPanel contentPanel = (JPanel) obj.getContentPane().getComponent(1); // Assuming contentPanel is at index 1
-//        contentPanel.setVisible(false);
-//        
-//        JPanel btnPanel = (JPanel) obj.getContentPane().getComponent(0);
-//        JPanel btnContentPanel = (JPanel) btnPanel.getComponent(1); // Assuming btnContentPanel is at index 1
-//
-////        btnContentPanel.setVisible(false);
-//        btnPanel.remove(btnContentPanel);
-//
-//            obj.setSize(ICON_WIDTH, ICON_HEIGHT);
-//            obj.setLocation(notObj.initX, notObj.initY);
-//            obj.validate();
-//            obj.repaint();
-//        }
     }
 
+    // Method to hide all notes 
     public  void makeInvisible() {
         for (JWindow window : noteWindows) {
             window.dispose();
         }
     }
     
+    // Method to remove individual note
     public void removeIndividual(String id) {
+    	// Remove note from file also 
     	saveNotesInFileObj.removeNote(id);
     	// Remove from maps
         if (noteWindowContentMap.containsKey(id)) {
@@ -259,19 +232,15 @@ class StickyNotesWindow {
     
     private ImageIcon getImageToIcon(String iconPath,int wid ,int hei) {
     	try {
-            // Load the image from the resources
             java.net.URL imgURL = getClass().getClassLoader().getResource(iconPath);
             if (imgURL == null) {
                 throw new IOException("Image not found: " + iconPath);
             }
 
-            // Read the image
             Image photo = ImageIO.read(imgURL);
 
-            // Scale the image
             Image scaledImage = photo.getScaledInstance(wid, hei, Image.SCALE_SMOOTH);
 
-            // Create and return the ImageIcon
             return new ImageIcon(scaledImage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -287,6 +256,7 @@ class StickyNotesWindow {
     	btn.setMargin(new Insets(0, 0, 0, 0));
     }
 
+    // Method to return all notes from json file as list
     private  List<Note> readNotesFromJSON(String filePath) throws IOException, ParseException {
 //    	System.out.println("file "+filePath);
         JSONParser parser = new JSONParser();
@@ -309,73 +279,73 @@ class StickyNotesWindow {
     private  void createStickyNoteIcon(Note note) throws IOException {
     	Border border = BorderFactory.createLineBorder(Color.BLACK, 2); // Line border with black color and 2 pixels thickness
         
-        
+        // Main window for note
         JWindow window = new JWindow();
         window.setAlwaysOnTop(true);
         window.setSize(ICON_WIDTH, ICON_HEIGHT);
         window.setLayout(new BorderLayout());
 
+        // Panels : btnPanel[ btnMainPanel { paperPin icon }, btnContentPanel { edit, trash, stick icon } ]
         JPanel btnPanel = new JPanel(new GridLayout(1,1));
         JPanel btnMainPanel = new JPanel(new GridLayout(1, 1));
         JPanel btnContentPanel = new JPanel(new GridLayout(1, 3));
         
-
+        // PaperClip btn 
         JButton button = new JButton("");
           prepareBtnForIcon(button);
         
-//      add icon
+          // Add icon to btn
           button.setIcon(getImageToIcon("paperClip.png",20,20));
           button.setPreferredSize(new Dimension(ICON_WIDTH, ICON_HEIGHT));
           
-          btnMainPanel.add(button);
         
-        
-//        btn COntent panel
+		// Content panel btns
         JButton stickbtn = new JButton("");
         prepareBtnForIcon(stickbtn);
         
-	//      add icon
-	stickbtn.setIcon(getImageToIcon("magnet.png",20,20));
-	stickbtn.setPreferredSize(new Dimension(ICON_WIDTH, ICON_HEIGHT));
+        // add icon
+        stickbtn.setIcon(getImageToIcon("magnet.png",20,20));
+        stickbtn.setPreferredSize(new Dimension(ICON_WIDTH, ICON_HEIGHT));
         
         stickbtn.addActionListener(e -> stickIndividual(note,window));
         
-        
-//        edit btn 
+        // edit btn 
         JButton editbtn = new JButton("");
         prepareBtnForIcon(editbtn);
         
-	//      add icon
+        // add icon
         editbtn.setIcon(getImageToIcon("pencil.png",20,20));
         editbtn.setPreferredSize(new Dimension(ICON_WIDTH, ICON_HEIGHT));
 	
-//	end edit btn
-        
+        // trash btn
         JButton trashkbtn = new JButton("");
         prepareBtnForIcon(trashkbtn);
         
-    	//      add icon
+    	// add icon
         trashkbtn.setIcon(getImageToIcon("trash.png",20,20));
         trashkbtn.setPreferredSize(new Dimension(ICON_WIDTH, ICON_HEIGHT));        
         trashkbtn.addActionListener(e -> removeIndividual(note.id));
         
         
 
-//        btn main panel set
+        // Add btns to there panel
         btnMainPanel.add(button);
+        
         btnContentPanel.add(stickbtn);
         btnContentPanel.add(editbtn);
         btnContentPanel.add(trashkbtn);
         
-        btnContentPanel.setVisible(false);
+        
+        btnContentPanel.setVisible(false);	// Initially this panel is invisible
 //        btnMainPanel.setBorder(border);
 
-        btnPanel.add(btnMainPanel);
-        
         btnPanel.setBackground(new Color(note.nBarColor));
         btnMainPanel.setBackground(new Color(note.nBarColor));
 //        btnContentPanel.setBackground(new Color(note.nBarColor));
-
+        
+        btnPanel.add(btnMainPanel);
+        
+        // COntent panel
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setVisible(false);
 
@@ -436,14 +406,6 @@ class StickyNotesWindow {
                             
                         	saveNotesInFileObj.updateNote(noteId,noteContent,createNoteWindow.getNavbarColor(),createNoteWindow.getContentColor());
                         	noteArea.setText(noteContent);
-//                        	saveNotesInFileObj.saveJsonToFile();
-//                        	getAllNotes();
-                        	
-//                        	try {
-//                        		StickyNotesWidget.start();
-//                        	} catch (IOException | ParseException err) {
-//                        		err.printStackTrace();
-//                        	}
                         }
                     }
                 });
@@ -452,17 +414,21 @@ class StickyNotesWindow {
             }
         });
 
+        // Add both panel in main window
         window.add(btnPanel, BorderLayout.NORTH);
         window.add(contentPanel, BorderLayout.CENTER);
 
         window.setLocation(note.x, note.y);
         window.setVisible(true);
 
+        // add window and note in map
         noteWindows.add(window);
 //        System.out.println(note+" === "+note.note+"   "+note.id);
         noteWindowMap.put(note.id, window);
         noteWindowContentMap.put(note.id, note);
+        
 
+        // Listeners useful in dragging notes
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {

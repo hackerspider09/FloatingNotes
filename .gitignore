@@ -3,3 +3,5 @@ bin
 .classpath
 .project
 noteData.json
+FloatigNotesApp/floatingnotes.log
+FloatigNotesApp/noteData.json
