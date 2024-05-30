@@ -23,6 +23,6 @@ Java-based floating sticky note application for desktop. It allows users to crea
 3. Add the `json-simple-1.1.jar` library to the project's build path.
 
 ## Images
-![Sticky Notes App](images/floatingNotes.png)
+![Floating Notes App](images/floatingNotes.png)
 
 
