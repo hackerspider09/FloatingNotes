@@ -11,8 +11,8 @@ Java-based floating sticky note application for desktop. It allows users to crea
 ## Use Application:
 
 ### Run JAR File:
-- Download the `FloatingNote.jar` file from the repository.
-- Use `java -jar FloatingNote.jar` to run the application instantly. No additional setup required!
+- Download the `FloatingNotes.jar` file from the repository.
+- Use `java -jar FloatingNotes.jar` to run the application instantly. No additional setup required!
 
 
 ## To See Code and Build from Source:
@@ -22,5 +22,7 @@ Java-based floating sticky note application for desktop. It allows users to crea
 2. Ensure that `StickyNoteManager.java` is the main file for running the application.
 3. Add the `json-simple-1.1.jar` library to the project's build path.
 
+## Images
+![Sticky Notes App](images/floatingNotes.png)
 
 
