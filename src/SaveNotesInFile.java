@@ -73,11 +73,13 @@ public class SaveNotesInFile {
             if (note.get("id").equals(id)) {
                 notes.remove(i);
                 System.out.println("Note removed successfully.");
-                saveJsonToFile();
-                return;
+//                saveJsonToFile();
+                break;
+//                return;
             }
         }
-        System.out.println("Note with ID " + id + " not found.");
+        System.out.println(notes);
+//        System.out.println("Note with ID " + id + " not found.");
     }
     
     // Update existing note by Id

@@ -6,14 +6,22 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class InfoWindow extends JFrame {
-    public InfoWindow() {
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Sticky Floating Notes");
-        setSize(500, 550);
-        setResizable(false);
-        setLocationRelativeTo(null);
+public class InfoWindow  {
+	private static JWindow mainWindow ;
+	private  int xPos, yPos;
+	private boolean isInfoWindowClose = false;
+	
+	protected void closeWindow() {
+		mainWindow.dispose();
+	}
+	
+	public InfoWindow() {
+    	mainWindow = new JWindow();
+        mainWindow.setAlwaysOnTop(true);
+        mainWindow.setSize(500, 550);
+        mainWindow.setBackground(Color.BLUE);
+        mainWindow.setLocationRelativeTo(null);
+
 
         // Panel
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -21,12 +29,22 @@ public class InfoWindow extends JFrame {
 
      // Info Panel
         JPanel infoPanel = createInfoPanel();
+        infoPanel.setBackground(ColorClass.yellow2);
         mainPanel.add(infoPanel, BorderLayout.NORTH);
         
 
         JPanel iconDescriptionPanel = new JPanel();
         iconDescriptionPanel.setLayout(new GridLayout(10, 1));
+        iconDescriptionPanel.setBackground(ColorClass.yellow2);
         mainPanel.add(iconDescriptionPanel, BorderLayout.CENTER);
+        
+        JButton closeBtn = new JButton("Close");
+        closeBtn.setBackground(ColorClass.cyan2);
+        closeBtn.addActionListener(e -> {
+        	isInfoWindowClose = true;
+        	mainWindow.dispose();
+        	});
+        mainPanel.add(closeBtn,BorderLayout.SOUTH);
         
         // Icons and descriptions
         String[] iconPaths = {"setting.png", "magnet.png", "add.png","openEye.png","closeEye.png","cross.png","info.png","paperClip.png","pencil.png","trash.png"};
@@ -45,9 +63,29 @@ public class InfoWindow extends JFrame {
             JPanel panel = createIconDescriptionPanel(iconPaths[i], descriptions[i]);
             iconDescriptionPanel.add(panel);
         }
+        
+        
+        
+     // Listeners useful in dragging notes
+        mainWindow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                xPos = me.getX();
+                yPos = me.getY();
+            }
+        });
 
-        getContentPane().add(mainPanel);
-        setVisible(true);
+        mainWindow.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent me) {
+                int deltaX = me.getXOnScreen() - xPos;
+                int deltaY = me.getYOnScreen() - yPos;
+                mainWindow.setLocation(deltaX, deltaY);
+            }
+        });
+
+        mainWindow.getContentPane().add(mainPanel);
+        mainWindow.setVisible(true);
     }
     
     // Method to create info section
@@ -119,12 +157,12 @@ public class InfoWindow extends JFrame {
 		
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));  // This position matters to give space after 1st component
 		panel.add(textLabel);
-        
+        panel.setBackground(ColorClass.yellow2);
         return panel;
     }
 
 
-    public static void main(String[] args) {
-        new InfoWindow();
-    }
+//    public static void main(String[] args) {
+//        new InfoWindow();
+//    }
 }

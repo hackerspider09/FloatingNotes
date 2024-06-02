@@ -34,9 +34,12 @@ public class StickyNotesManager {
     private static final int ICON_H_GAP  = 20;
     private static final int ICON_V_GAP  = 20;
     
+    private static boolean isInfoClick = false;
+    
     // Objects
-    private SaveNotesInFile saveNotesInFileObj;
-    private StickyNotesWindow stickyNoteObj;
+    protected static SaveNotesInFile saveNotesInFileObj;
+    protected  static StickyNotesWindow stickyNoteObj;
+    private static InfoWindow infoWindowObj; 
     
     // Color
     private Color purpulCol = Color.decode("#ce81ff");
@@ -234,7 +237,18 @@ public class StickyNotesManager {
         
         infoButton.setIcon(getImageToIcon("info.png",30,30));
         infoButton.setPreferredSize(new Dimension(ICON_WIDTH, ICON_HEIGHT));
-        infoButton.addActionListener(e -> new InfoWindow());
+        infoButton.addActionListener(e -> {
+        	 
+        	// Used if else to avoid spawning new Info Window if btn double click
+        	if (isInfoClick == false) {
+        		infoWindowObj = new InfoWindow(); 
+        		isInfoClick = true; 
+        	}else {
+        		infoWindowObj.closeWindow();
+        		isInfoClick = false;
+        	}
+        	
+        });
         
 
         // Create a additionalBtnSettingPanelpanel for the main button
@@ -249,11 +263,19 @@ public class StickyNotesManager {
         additionalBtnSettingPanelpanel.setVisible(false); // Hide the additionalBtnSettingPanelpanel initially
         additionalBtnSettingPanelpanel.setBackground(greenCol);
         // Add btns to panel
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
         additionalBtnSettingPanelpanel.add(stickButton);
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
         additionalBtnSettingPanelpanel.add(addButton);
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
         additionalBtnSettingPanelpanel.add(visibleButton);
-        additionalBtnSettingPanelpanel.add(crossButton);
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
         additionalBtnSettingPanelpanel.add(infoButton);
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        additionalBtnSettingPanelpanel.add(crossButton);
+        additionalBtnSettingPanelpanel.add(Box.createRigidArea(new Dimension(10, 0)));
         
 
         // Add an ActionListener to the main button to toggle the visibility of the additional buttons

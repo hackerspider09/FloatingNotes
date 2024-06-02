@@ -30,7 +30,7 @@ class StickyNotesWindow {
     // map to store notes and its windows
     private Map<String, Note> noteWindowContentMap = new HashMap<>();
     private Map<String, JWindow> noteWindowMap = new HashMap<>();
-    private SaveNotesInFile saveNotesInFileObj;
+    private SaveNotesInFile saveNotesInFileObj = StickyNotesManager.saveNotesInFileObj;
     
     // co-ordinates for notes to position
     private  int xPos, yPos;
@@ -39,7 +39,7 @@ class StickyNotesWindow {
 
 
     public StickyNotesWindow() {
-    	saveNotesInFileObj = new SaveNotesInFile();
+//    	saveNotesInFileObj = new SaveNotesInFile();
 	}
 
     // Use to test component
@@ -200,6 +200,7 @@ class StickyNotesWindow {
     public void removeIndividual(String id) {
     	// Remove note from file also 
     	saveNotesInFileObj.removeNote(id);
+    	saveNotesInFileObj.saveJsonToFile();
     	// Remove from maps
         if (noteWindowContentMap.containsKey(id)) {
             noteWindowContentMap.remove(id);
