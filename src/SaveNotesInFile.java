@@ -20,7 +20,7 @@ import org.json.simple.parser.ParseException;
 public class SaveNotesInFile {
 
     private  JSONObject noteData;
-    private static final String FILE_PATH = "noteData.json";
+    private static final String FILE_PATH = "./noteData.json";
     private static final int MAX_NOTES = 42; // Maximum allowed notes
 
     public SaveNotesInFile() {
