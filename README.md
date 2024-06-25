@@ -24,5 +24,6 @@ Java-based floating sticky note application for desktop. It allows users to crea
 
 ## Images
 ![Floating Notes App](images/floatingNotes.png)
+![Floating Notes App](images/Banner.png)
 
 
