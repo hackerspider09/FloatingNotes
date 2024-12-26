@@ -97,6 +97,8 @@ public class StickyNotesManager {
     	btn.setMargin(new Insets(0, 0, 0, 0));
     }
     
+
+    
     // Listener for stick notes btn
     private void stickButtonEventListneres() {
     	stickButton.addMouseListener(new MouseAdapter() {
@@ -284,20 +286,26 @@ public class StickyNotesManager {
             public void mouseClicked(MouseEvent e) {
 //                System.out.println(settingPanelWindow.getSize());
                 if (additionalBtnSettingPanelpanel.isVisible()) {
-                    // contentPanel.setVisible(false);
+//                	to toggle state of panel when clicked on setting
+//                     contentPanel.setVisible(false);
+//                	System.out.println("testing ");
+                	additionalBtnSettingPanelpanel.setVisible(false);
+                    settingPanelWindow.pack();
+
+                	
                 } else {
-                additionalBtnSettingPanelpanel.setVisible(!additionalBtnSettingPanelpanel.isVisible());
-                settingPanelWindow.pack();
-
-
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//                settingPanelWindow.setLocation(screenSize.width - settingPanelWindow.getWidth(), screenSize.height - settingPanelWindow.getHeight() - 40);
-//                settingPanelWindow.setLocation(xPosSettingBtn, yPosSettingBtn);
-                int newX = e.getXOnScreen() - xPosSettingBtn;
-                int newY = e.getYOnScreen() - yPosSettingBtn;
-                settingPanelWindow.setLocation(newX, newY);
-                settingPanelWindow.validate();
-                settingPanelWindow.repaint();
+	                additionalBtnSettingPanelpanel.setVisible(!additionalBtnSettingPanelpanel.isVisible());
+	                settingPanelWindow.pack();
+	
+	
+	                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	//                settingPanelWindow.setLocation(screenSize.width - settingPanelWindow.getWidth(), screenSize.height - settingPanelWindow.getHeight() - 40);
+	//                settingPanelWindow.setLocation(xPosSettingBtn, yPosSettingBtn);
+	                int newX = e.getXOnScreen() - xPosSettingBtn;
+	                int newY = e.getYOnScreen() - yPosSettingBtn;
+	                settingPanelWindow.setLocation(newX, newY);
+	                settingPanelWindow.validate();
+	                settingPanelWindow.repaint();
                 }
             }
         });

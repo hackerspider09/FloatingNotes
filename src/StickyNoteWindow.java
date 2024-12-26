@@ -377,15 +377,19 @@ class StickyNotesWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (contentPanel.isVisible()) {
-                    // contentPanel.setVisible(false);
+                     contentPanel.setVisible(false);
+                     btnContentPanel.setVisible(false);
+                     btnPanel.remove(btnContentPanel);
+                     window.pack();
                 } else {
                     contentPanel.setVisible(true);
                     btnContentPanel.setVisible(true);
                     btnPanel.add(btnContentPanel);
                     window.pack();
-                    window.setLocation(note.x - NOTE_WIDTH, note.y);
-                    window.validate();
-                    window.repaint();
+                                    
+//                    window.setLocation(note.x - NOTE_WIDTH, note.y);  // to open note at original pos which is in json file
+//                    window.validate();
+//                    window.repaint();
                 }
             }
         });
